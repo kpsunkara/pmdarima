@@ -39,7 +39,12 @@ commands:
       pythonversion:
         type: string
     steps:
-      - run: ./build_tools/circle/build_wheel.sh << parameters.pythonversion >>
+      - run:
+          name: Create VERSION file
+          command: make version
+      - run:
+          name: Build wheel file
+          command: ./build_tools/circle/build_wheel.sh << parameters.pythonversion >>
 
   deploy-to-pypi:
     description: "Deploy the contents of dist/ to PyPi"

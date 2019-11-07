@@ -94,7 +94,11 @@ author = 'Taylor G Smith'
 # built documents.
 #
 # The short X.Y version.
-version = str(parse_version(pmdarima.__version__))
+raw_version = pmdarima.__version__
+if raw_version == "0.0.0":
+    version = "dev-version"
+else:
+    version = str(parse_version(raw_version))
 # The full version, including alpha/beta/rc tags.
 release = version
 

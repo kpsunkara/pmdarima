@@ -5,6 +5,15 @@
 # The pmdarima module
 
 import os as _os
+from pathlib import Path
+
+try:
+    # this var is injected in the setup build to enable
+    # the retrieval of the version number without actually
+    # importing the un-built submodules.
+    __PMDARIMA_SETUP__
+except NameError:
+    __PMDARIMA_SETUP__ = False
 
 # PEP0440 compatible formatted version, see:
 # https://www.python.org/dev/peps/pep-0440/
@@ -22,15 +31,12 @@ import os as _os
 # Dev branch marker is: 'X.Y.dev' or 'X.Y.devN' where N is an integer.
 # 'X.Y.dev0' is the canonical version of 'X.Y.dev'
 #
-__version__ = "1.4.1.dev0"
-
+# __version__ = "1.4.1.dev0"
 try:
-    # this var is injected in the setup build to enable
-    # the retrieval of the version number without actually
-    # importing the un-built submodules.
-    __PMDARIMA_SETUP__
-except NameError:
-    __PMDARIMA_SETUP__ = False
+    version_path = Path(__file__).parent / "VERSION"
+    version = version_path.read_text().strip()
+except FileNotFoundError:
+    version = "0.0.0"
 
 if __PMDARIMA_SETUP__:
     import sys
@@ -75,6 +81,7 @@ else:
     del _os
     del __check_build
     del __PMDARIMA_SETUP__
+    del Path
 
 
 def setup_module(module):
